@@ -1,0 +1,13 @@
+{
+	"name": "com.funtech.soap-internet",
+	"version": "1.0.0",
+	"displayName": "Soap's Internet",
+	"description": "常用的網路方面相關功能",
+	"unity": "2019.3",
+	"keywords": [
+		"tools",
+		"soap",
+		"internet"
+	],
+	"type": "tools"
+}
