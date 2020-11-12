@@ -1,0 +1,15 @@
+{
+    "name": "Unity.SoapInternet.Editor",
+    "references": [
+        "GUID:f18955b651f945a4fb192079aa1b10ec"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -4,6 +4,11 @@
 	"displayName": "Soap's Internet",
 	"description": "常用的網路方面相關功能",
 	"unity": "2019.3",
+	"author": {
+		"name": "Soap",
+		"email": "cowbear6598@gmail.com",
+		"url": "https://github.com/cowbear6598/Soap_Internet.git"
+	},
 	"keywords": [
 		"tools",
 		"soap",
