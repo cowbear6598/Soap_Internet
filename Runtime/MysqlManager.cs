@@ -1,15 +1,28 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using MEC;
-using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Soap.Internet
 {
-    public static class MysqlManager
+    public class MysqlManager : MonoBehaviour
     {
+        public static readonly MysqlManager Instance;
+
+        static MysqlManager()
+        {
+            if (Instance == null)
+            {
+                GameObject g = new GameObject("MysqlManager");
+                
+                Instance = g.AddComponent<MysqlManager>();
+
+                DontDestroyOnLoad(g);
+            }
+        }
+        
         public static Action OnConnectFail;
 
         //Url Settings
@@ -28,33 +41,33 @@ namespace Soap.Internet
 
         #region GET
 
-        public static void RunRequestAPIByGet(Action<string> _action, int _domainIndex, string _api,params string[] _key)
+        public void RunRequestAPIByGet(Action<string> _action, int _domainIndex, string _api,params string[] _key)
         {
-            Timing.RunCoroutine(RequestAPIByGet(_action, _domainIndex, _api, _key));
+            StartCoroutine(RequestAPIByGet(_action, _domainIndex, _api, _key));
         }
 
-        public static void RunRequestAPIByGet(Action<string> _action, int _domainIndex, string _api, string _token, params string[] _key)
+        public void RunRequestAPIByGet(Action<string> _action, int _domainIndex, string _api, string _token, params string[] _key)
         {
-            Timing.RunCoroutine(RequestAPIByGet(_action, _domainIndex, _api, _token, _key));
+            StartCoroutine(RequestAPIByGet(_action, _domainIndex, _api, _token, _key));
         }
 
-        private static IEnumerator<float> RequestAPIByGet(Action<string> _action, int _domainIndex, string _api, params string[] _key)
+        private IEnumerator RequestAPIByGet(Action<string> _action, int _domainIndex, string _api, params string[] _key)
         {
             using (UnityWebRequest req = UnityWebRequest.Get(GetAPIUrl(_domainIndex, _api, _key)))
             {
-                yield return Timing.WaitUntilDone(req.SendWebRequest());
+                yield return req.SendWebRequest();
         
                 CallbackMessage(_action, req);
             }
         }
         
-        private static IEnumerator<float> RequestAPIByGet(Action<string> _action, int _domainIndex, string _api, string _token, params string[] _key)
+        private IEnumerator RequestAPIByGet(Action<string> _action, int _domainIndex, string _api, string _token, params string[] _key)
         {
             using (UnityWebRequest req = UnityWebRequest.Get(GetAPIUrl(_domainIndex, _api, _key)))
             {
                 req.SetRequestHeader("Authorization", _token);
         
-                yield return Timing.WaitUntilDone(req.SendWebRequest());
+                yield return req.SendWebRequest();
         
                 CallbackMessage(_action, req);
             }
@@ -64,22 +77,22 @@ namespace Soap.Internet
 
         #region POST
 
-        public static void RunRequestAPIByPost(Action<string> _action, int _domainIndex, string _api, object _data,params string[] _key)
+        public void RunRequestAPIByPost(Action<string> _action, int _domainIndex, string _api, object _data,params string[] _key)
         {
-            Timing.RunCoroutine(RequestAPIByPost(_action, _domainIndex, _api, _data, _key));
+            StartCoroutine(RequestAPIByPost(_action, _domainIndex, _api, _data, _key));
         }
 
-        public static void RunRequestAPIByPost(Action<string> _action, int _domainIndex, string _api, string _token, object _data,params string[] _key)
+        public void RunRequestAPIByPost(Action<string> _action, int _domainIndex, string _api, string _token, object _data,params string[] _key)
         {
-            Timing.RunCoroutine(RequestAPIByPost(_action, _domainIndex, _api, _token, _data, _key));
+            StartCoroutine(RequestAPIByPost(_action, _domainIndex, _api, _token, _data, _key));
         }
 
-        public static void RunMultiFormRequestAPIByPost(Action<string> _action, int _domainIndex, string _api, List<IMultipartFormSection> _data)
+        public void RunMultiFormRequestAPIByPost(Action<string> _action, int _domainIndex, string _api, List<IMultipartFormSection> _data)
         {
-            Timing.RunCoroutine(MultiFormRequestAPIByPost(_action, _domainIndex, _api, _data));
+            StartCoroutine(MultiFormRequestAPIByPost(_action, _domainIndex, _api, _data));
         }
 
-        private static IEnumerator<float> RequestAPIByPost(Action<string> _action, int _domainIndex, string _api, object _data, params string[] _key)
+        private IEnumerator RequestAPIByPost(Action<string> _action, int _domainIndex, string _api, object _data, params string[] _key)
         {
             using (UnityWebRequest req = new UnityWebRequest(GetAPIUrl(_domainIndex, _api, _key), UnityWebRequest.kHttpVerbPOST))
             {
@@ -89,13 +102,13 @@ namespace Soap.Internet
         
                 req.SetRequestHeader("Content-Type", "application/json");
         
-                yield return Timing.WaitUntilDone(req.SendWebRequest());
+                yield return req.SendWebRequest();
         
                 CallbackMessage(_action, req);
             }
         }
         
-        private static IEnumerator<float> RequestAPIByPost(Action<string> _action, int _domainIndex, string _api, string _token, object _data, params string[] _key)
+        private IEnumerator RequestAPIByPost(Action<string> _action, int _domainIndex, string _api, string _token, object _data, params string[] _key)
         {
             using (UnityWebRequest req = new UnityWebRequest(GetAPIUrl(_domainIndex, _api, _key), UnityWebRequest.kHttpVerbPOST))
             {
@@ -106,19 +119,19 @@ namespace Soap.Internet
                 req.SetRequestHeader("Authorization", _token);
                 req.SetRequestHeader("Content-Type", "application/json");
         
-                yield return Timing.WaitUntilDone(req.SendWebRequest());
+                yield return req.SendWebRequest();
         
                 CallbackMessage(_action, req);
             }
         }
         
-        private static IEnumerator<float> MultiFormRequestAPIByPost(Action<string> _action, int _domainIndex, string _api, List<IMultipartFormSection> _data)
+        private IEnumerator MultiFormRequestAPIByPost(Action<string> _action, int _domainIndex, string _api, List<IMultipartFormSection> _data)
         {
             using (UnityWebRequest req = UnityWebRequest.Post(GetAPIUrl(_domainIndex, _api), _data))
             {
                 req.SetRequestHeader("Content-Type", "multipart/form-data");
                 
-                yield return Timing.WaitUntilDone(req.SendWebRequest());
+                yield return req.SendWebRequest();
         
                 CallbackMessage(_action, req);
             }
@@ -126,7 +139,7 @@ namespace Soap.Internet
 
         #endregion
 
-        private static string GetAPIUrl( int _domainIndex, string _api, params string[] _key)
+        private string GetAPIUrl( int _domainIndex, string _api, params string[] _key)
         {
             string _finalUrl = domainList[_domainIndex] + _api + "?";
 
@@ -138,7 +151,7 @@ namespace Soap.Internet
             return _finalUrl;
         }
 
-        private static void CallbackMessage(Action<string> _action, UnityWebRequest _req)
+        private void CallbackMessage(Action<string> _action, UnityWebRequest _req)
         {
 #if UNITY_EDITOR
             Debug.Log("Url: " +_req.uri +"\nCode: " + _req.responseCode + "\nContext: " + _req.downloadHandler.text);
@@ -156,7 +169,7 @@ namespace Soap.Internet
             }
         }
 
-        private static UploadHandler CreateJsonUploadHandler(object _data, params string[] _key)
+        private UploadHandler CreateJsonUploadHandler(object _data, params string[] _key)
         {
             if ((_data == null && _key.Length == 0) || (_data != null && _key.Length != 0)) return null;
 
@@ -164,7 +177,7 @@ namespace Soap.Internet
 
             if (_data != null)
             {
-                _jsonRaw = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(_data));
+                _jsonRaw = Encoding.UTF8.GetBytes(JsonUtility.ToJson(_data));
             }
             else if (_key.Length > 0)
             {
@@ -175,7 +188,7 @@ namespace Soap.Internet
                     _combineData += (i == 0) ? _key[i] : "&" + _key[i];
                 }
 
-                _jsonRaw = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(_combineData));
+                _jsonRaw = Encoding.UTF8.GetBytes(JsonUtility.ToJson(_combineData));
             }
 
             UploadHandler _uploadHandler = new UploadHandlerRaw(_jsonRaw);
@@ -184,7 +197,7 @@ namespace Soap.Internet
             return _uploadHandler;
         }
 
-        public static string GetDomainName(int _index)
+        public string GetDomainName(int _index)
         {
             if (_index > domainList.Count)
             {

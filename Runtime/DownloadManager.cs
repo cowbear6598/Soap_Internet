@@ -1,24 +1,37 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using MEC;
 using UnityEngine;
 using UnityEngine.Networking;
 
 namespace Soap.Internet
 {
-    public static class DownloadManager
+    public class DownloadManager : MonoBehaviour
     {
-        public static void DownloadTexture(Action<Texture> _callback,string _url)
+        public static readonly DownloadManager Instance;
+
+        static DownloadManager()
         {
-            Timing.RunCoroutine(StartDownloadTexture(_callback, _url));
+            if (Instance == null)
+            {
+                GameObject g = new GameObject("DownloadManager");
+
+                Instance = g.AddComponent<DownloadManager>();
+
+                DontDestroyOnLoad(g);
+            }
+        }
+        
+        public void DownloadTexture(Action<Texture> _callback,string _url)
+        {
+            StartCoroutine(StartDownloadTexture(_callback, _url));
         }
     
-        private static IEnumerator<float> StartDownloadTexture(Action<Texture> _callback,string _url)
+        private IEnumerator StartDownloadTexture(Action<Texture> _callback,string _url)
         {
             using (UnityWebRequest req = UnityWebRequestTexture.GetTexture(_url))
             {
-                yield return Timing.WaitUntilDone(req.SendWebRequest());
+                yield return req.SendWebRequest();
         
                 if (req.isNetworkError || req.isHttpError)
                 {
