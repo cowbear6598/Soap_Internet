@@ -15,3 +15,15 @@ If there is a new version, I will update immediately.
 - MysqlManager.RunRequestAPIByPost 要求 POST 方法
 - MysqlManager.RunRequestAPIByGet 要求 GET 方法
 
+## 安裝 (Install)
+
+- 使用 CLI 安裝 (CLI)
+<table><tr><td bgcolor=black>
+openupm add com.funtech.soap-internet
+</td></tr></table>
+
+- 使用 Git 安裝 (Git)
+
+<table><tr><td bgcolor=black>
+https://github.com/cowbear6598/Soap_Internet.git
+</td></tr></table>
