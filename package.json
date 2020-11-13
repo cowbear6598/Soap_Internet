@@ -1,18 +1,18 @@
 {
-	"name": "com.funtech.soap-internet",
-	"version": "1.0.0",
-	"displayName": "Soap's Internet",
-	"description": "常用的網路方面相關功能",
-	"unity": "2019.3",
-	"author": {
-		"name": "Soap",
-		"email": "cowbear6598@gmail.com",
-		"url": "https://github.com/cowbear6598/Soap_Internet.git"
-	},
-	"keywords": [
-		"tools",
-		"soap",
-		"internet"
-	],
-	"type": "tools"
+  "name": "com.funtech.soap-internet",
+  "version": "1.0.1",
+  "displayName": "Soap's Internet",
+  "description": "\u5e38\u7528\u7684\u7db2\u8def\u65b9\u9762\u76f8\u95dc\u529f\u80fd",
+  "unity": "2019.3",
+  "author": {
+    "name": "Soap",
+    "email": "cowbear6598@gmail.com",
+    "url": "https://github.com/cowbear6598/Soap_Internet.git"
+  },
+  "keywords": [
+    "tools",
+    "soap",
+    "internet"
+  ],
+  "type": "tools"
 }
