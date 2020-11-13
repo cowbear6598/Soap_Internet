@@ -2,9 +2,9 @@
 
 > Soap -> Internet -> MysqlSetting 設定需要用到的 http[s]://[domain]
 
-- MysqlManager.OnConnetFail 綁定事件，當網路連線出錯時呼叫
-- MysqlManager.RunRequestAPIByPost 要求 POST 方法
-- MysqlManager.RunRequestAPIByGet 要求 GET 方法
+- MysqlManager.Instance.OnConnetFail 綁定事件，當網路連線出錯時呼叫
+- MysqlManager.Instance.RunRequestAPIByPost 要求 POST 方法
+- MysqlManager.Instance.RunRequestAPIByGet 要求 GET 方法
 
 ## 安裝 (Install)
 
