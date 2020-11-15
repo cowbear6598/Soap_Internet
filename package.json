@@ -1,8 +1,8 @@
 {
   "name": "com.funtech.soap-internet",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "displayName": "Soap's Internet",
-  "description": "\u5e38\u7528\u7684\u7db2\u8def\u65b9\u9762\u76f8\u95dc\u529f\u80fd",
+  "description": "My internet function, like Unitywebrequest or download image etc...",
   "unity": "2019.3",
   "author": {
     "name": "Soap",
