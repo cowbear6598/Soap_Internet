@@ -23,7 +23,7 @@ namespace Soap.Internet
             }
         }
         
-        public static Action OnConnectFail;
+        public Action OnConnectFail;
 
         //Url Settings
         private static List<string> domainList = new List<string>();
@@ -41,14 +41,14 @@ namespace Soap.Internet
 
         #region GET
 
-        public void RunRequestAPIByGet(Action<string> _action, int _domainIndex, string _api,params string[] _key)
+        public void RunGet(Action<string> _action, int _domainIndex, string _api,params string[] _key)
         {
             StartCoroutine(RequestAPIByGet(_action, _domainIndex, _api, _key));
         }
 
-        public void RunRequestAPIByGet(Action<string> _action, int _domainIndex, string _api, string _token, params string[] _key)
+        public void RunGetWithToken(Action<string> _action, int _domainIndex, string _api, string _token, params string[] _key)
         {
-            StartCoroutine(RequestAPIByGet(_action, _domainIndex, _api, _token, _key));
+            StartCoroutine(RequestAPIByGetWithToken(_action, _domainIndex, _api, _token, _key));
         }
 
         private IEnumerator RequestAPIByGet(Action<string> _action, int _domainIndex, string _api, params string[] _key)
@@ -61,7 +61,7 @@ namespace Soap.Internet
             }
         }
         
-        private IEnumerator RequestAPIByGet(Action<string> _action, int _domainIndex, string _api, string _token, params string[] _key)
+        private IEnumerator RequestAPIByGetWithToken(Action<string> _action, int _domainIndex, string _api, string _token, params string[] _key)
         {
             using (UnityWebRequest req = UnityWebRequest.Get(GetAPIUrl(_domainIndex, _api, _key)))
             {
@@ -77,17 +77,17 @@ namespace Soap.Internet
 
         #region POST
 
-        public void RunRequestAPIByPost(Action<string> _action, int _domainIndex, string _api, object _data,params string[] _key)
+        public void RunPost(Action<string> _action, int _domainIndex, string _api, object _data,params string[] _key)
         {
             StartCoroutine(RequestAPIByPost(_action, _domainIndex, _api, _data, _key));
         }
 
-        public void RunRequestAPIByPost(Action<string> _action, int _domainIndex, string _api, string _token, object _data,params string[] _key)
+        public void RunPostWithToken(Action<string> _action, int _domainIndex, string _api, string _token, object _data,params string[] _key)
         {
-            StartCoroutine(RequestAPIByPost(_action, _domainIndex, _api, _token, _data, _key));
+            StartCoroutine(RequestAPIByPostWithToken(_action, _domainIndex, _api, _token, _data, _key));
         }
 
-        public void RunMultiFormRequestAPIByPost(Action<string> _action, int _domainIndex, string _api, List<IMultipartFormSection> _data)
+        public void RunPostWithMultiPart(Action<string> _action, int _domainIndex, string _api, List<IMultipartFormSection> _data)
         {
             StartCoroutine(MultiFormRequestAPIByPost(_action, _domainIndex, _api, _data));
         }
@@ -108,7 +108,7 @@ namespace Soap.Internet
             }
         }
         
-        private IEnumerator RequestAPIByPost(Action<string> _action, int _domainIndex, string _api, string _token, object _data, params string[] _key)
+        private IEnumerator RequestAPIByPostWithToken(Action<string> _action, int _domainIndex, string _api, string _token, object _data, params string[] _key)
         {
             using (UnityWebRequest req = new UnityWebRequest(GetAPIUrl(_domainIndex, _api, _key), UnityWebRequest.kHttpVerbPOST))
             {
