@@ -1,3 +1,9 @@
+## 2020-12-06 - [1.0.6]
+### 增加
+
+- MysqlManager 增加 Timeout 設定
+- MysqlManager 增加取消 Request 功能
+
 ## 2020-11-20 - [1.0.5]
 ### 修改
 

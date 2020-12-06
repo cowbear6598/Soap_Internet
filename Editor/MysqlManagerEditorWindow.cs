@@ -15,10 +15,14 @@ namespace Soap.Internet
         
         // 初始網域
         private string defalutDomainName = "http://127.0.0.1";
+        
+        // 初始 timeout 時間
+        private int defaultTimeout = 15;
+
+        [SerializeField] private int timeout;
 
         // 使用到的網域列表
-        [SerializeField]
-        private List<string> domainList;
+        [SerializeField] private List<string> domainList;
         private SerializedProperty domainListProperty;
 
         [MenuItem("Soap/MysqlSetting")]
@@ -48,6 +52,8 @@ namespace Soap.Internet
             {
                 domainList.Add(defalutDomainName);
             }
+
+            timeout = PlayerPrefs.GetInt("MysqlManager_Timeout") == 0 ? PlayerPrefs.GetInt("MysqlManager_Timeout") : defaultTimeout;
         }
 
         private void OnGUI()
@@ -61,6 +67,7 @@ namespace Soap.Internet
             EditorGUI.BeginChangeCheck();
 
             EditorGUILayout.PropertyField(domainListProperty, true);
+            timeout = EditorGUILayout.IntField("Timeout", timeout);
 
             // 結束確認是否更改並更新 GUI 等
             if (EditorGUI.EndChangeCheck())
@@ -83,12 +90,14 @@ namespace Soap.Internet
                 mysqlManagerSO = (MysqlManagerScriptableObject) EditorGUIUtility.Load("Assets/Resources/" + fileName);
 
                 mysqlManagerSO.domainList = domainList;
+                mysqlManagerSO.timeout = timeout;
             }
             else
             {
                 mysqlManagerSO = CreateInstance<MysqlManagerScriptableObject>();
 
                 mysqlManagerSO.domainList = domainList;
+                mysqlManagerSO.timeout = timeout;
 
                 if (!AssetDatabase.IsValidFolder("Assets/Resources"))
                 {
@@ -108,6 +117,8 @@ namespace Soap.Internet
             {
                 PlayerPrefs.SetString("MysqlManager_Domain" + i, domainList[i]);
             }
+
+            PlayerPrefs.SetInt("MysqlManager_Timeout", timeout);
             
             PlayerPrefs.Save();
                 

@@ -28,6 +28,8 @@ namespace Soap.Internet
         //Url Settings
         private static List<string> domainList = new List<string>();
 
+        private static int timeout = 30;
+        
         [RuntimeInitializeOnLoadMethod]
         static void InitializeSetting()
         {
@@ -35,7 +37,12 @@ namespace Soap.Internet
 
             if (mysqlManagerSO != null)
             {
-                domainList = Resources.Load<MysqlManagerScriptableObject>("MysqlManagerSetting").domainList;
+                domainList = mysqlManagerSO.domainList;
+                timeout = mysqlManagerSO.timeout;
+            }
+            else
+            {
+                Debug.Log("You didn't initialize mysql manager setting!!");
             }
         }
 
@@ -55,6 +62,8 @@ namespace Soap.Internet
         {
             using (UnityWebRequest req = UnityWebRequest.Get(GetAPIUrl(_domainIndex, _api, _key)))
             {
+                req.timeout = timeout;
+                
                 yield return req.SendWebRequest();
         
                 CallbackMessage(_action, req);
@@ -67,6 +76,8 @@ namespace Soap.Internet
             {
                 req.SetRequestHeader("Authorization", _token);
         
+                req.timeout = timeout;
+                
                 yield return req.SendWebRequest();
         
                 CallbackMessage(_action, req);
@@ -102,6 +113,8 @@ namespace Soap.Internet
         
                 req.SetRequestHeader("Content-Type", "application/json");
         
+                req.timeout = timeout;
+                
                 yield return req.SendWebRequest();
         
                 CallbackMessage(_action, req);
@@ -119,6 +132,8 @@ namespace Soap.Internet
                 req.SetRequestHeader("Authorization", _token);
                 req.SetRequestHeader("Content-Type", "application/json");
         
+                req.timeout = timeout;
+                
                 yield return req.SendWebRequest();
         
                 CallbackMessage(_action, req);
@@ -131,6 +146,8 @@ namespace Soap.Internet
             {
                 req.SetRequestHeader("Content-Type", "multipart/form-data");
                 
+                req.timeout = timeout;
+                
                 yield return req.SendWebRequest();
         
                 CallbackMessage(_action, req);
@@ -138,6 +155,11 @@ namespace Soap.Internet
         }
 
         #endregion
+
+        public void StopRequest()
+        {
+            StopAllCoroutines();
+        }
 
         private string GetAPIUrl( int _domainIndex, string _api, params string[] _key)
         {

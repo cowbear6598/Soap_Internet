@@ -26,6 +26,11 @@ namespace Soap.Internet
         {
             StartCoroutine(StartDownloadTexture(_callback, _url));
         }
+
+        public void StopDownload()
+        {
+            StopAllCoroutines();
+        }
     
         private IEnumerator StartDownloadTexture(Action<Texture> _callback,string _url)
         {

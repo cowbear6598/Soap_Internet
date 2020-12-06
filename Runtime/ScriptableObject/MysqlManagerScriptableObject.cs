@@ -7,5 +7,6 @@ namespace Soap.Internet
     public class MysqlManagerScriptableObject : ScriptableObject
     {
         public List<string> domainList;
+        public int timeout = 30;
     }
 }
