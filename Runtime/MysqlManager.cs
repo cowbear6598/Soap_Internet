@@ -144,7 +144,20 @@ namespace Soap.Internet
         {
             using (UnityWebRequest req = UnityWebRequest.Post(GetAPIUrl(_domainIndex, _api), _data))
             {
-                req.SetRequestHeader("Content-Type", "multipart/form-data");
+                byte[] boundary = UnityWebRequest.GenerateBoundary();
+                byte[] formSections = UnityWebRequest.SerializeFormSections(_data, boundary);
+
+                byte[] terminate = Encoding.UTF8.GetBytes(String.Concat("\r\n--", Encoding.UTF8.GetString(boundary)));
+                
+                byte[] body = new byte[formSections.Length + terminate.Length];
+
+                Buffer.BlockCopy(formSections, 0, body, 0, formSections.Length);
+                Buffer.BlockCopy(terminate, 0, body, formSections.Length, terminate.Length);
+                
+                string contentType = String.Concat("multipart/form-data; boundary=", Encoding.UTF8.GetString(boundary));
+                
+                req.uploadHandler = new UploadHandlerRaw(body);
+                req.uploadHandler.contentType = contentType;
                 
                 req.timeout = timeout;
                 

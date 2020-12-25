@@ -1,6 +1,6 @@
 {
   "name": "com.funtech.soap-internet",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "displayName": "Soap's Internet",
   "description": "My internet function, like Unitywebrequest or download image etc...",
   "unity": "2019.3",
